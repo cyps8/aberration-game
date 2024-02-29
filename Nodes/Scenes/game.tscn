@@ -1,0 +1,114 @@
+[gd_scene load_steps=10 format=3 uid="uid://rvypixb4aur5"]
+
+[ext_resource type="Script" path="res://Scripts/Game/GameManager.gd" id="1_s135q"]
+[ext_resource type="PackedScene" uid="uid://dtlostygrqws0" path="res://Nodes/player.tscn" id="2_71vaw"]
+[ext_resource type="Script" path="res://Scripts/Menus/PauseMenu.gd" id="2_nf8gd"]
+[ext_resource type="Script" path="res://Scripts/Menus/MenuButton.gd" id="6_88nby"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_7ris1"]
+size = Vector2(20, 20)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_372tf"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_rbvyd"]
+sky_top_color = Color(0.580392, 0.756863, 0.905882, 1)
+sky_horizon_color = Color(1, 1, 1, 1)
+ground_bottom_color = Color(0.0509804, 0.0823529, 0.247059, 1)
+ground_horizon_color = Color(1, 1, 1, 1)
+ground_curve = 0.0386375
+
+[sub_resource type="Sky" id="Sky_aglw4"]
+sky_material = SubResource("ProceduralSkyMaterial_rbvyd")
+
+[sub_resource type="Environment" id="Environment_dr1tu"]
+background_mode = 2
+sky = SubResource("Sky_aglw4")
+
+[node name="Game" type="Node"]
+script = ExtResource("1_s135q")
+
+[node name="InGame" type="Node3D" parent="."]
+process_mode = 1
+
+[node name="Level" type="Node3D" parent="InGame"]
+
+[node name="Floor" type="StaticBody3D" parent="InGame/Level"]
+
+[node name="Mesh" type="MeshInstance3D" parent="InGame/Level/Floor"]
+mesh = SubResource("PlaneMesh_7ris1")
+skeleton = NodePath("../..")
+
+[node name="Shape" type="CollisionShape3D" parent="InGame/Level/Floor"]
+shape = SubResource("WorldBoundaryShape3D_372tf")
+
+[node name="DirLight" type="DirectionalLight3D" parent="InGame/Level"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.49907, 0)
+shadow_enabled = true
+
+[node name="Env" type="WorldEnvironment" parent="InGame/Level"]
+environment = SubResource("Environment_dr1tu")
+
+[node name="InGameUI" type="CanvasLayer" parent="InGame"]
+layer = 3
+
+[node name="Player" parent="InGame" instance=ExtResource("2_71vaw")]
+
+[node name="PauseMenu" type="CanvasLayer" parent="."]
+layer = 5
+script = ExtResource("2_nf8gd")
+
+[node name="c" type="Control" parent="PauseMenu"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Box" type="Panel" parent="PauseMenu/c"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -77.5
+offset_top = -137.0
+offset_right = 77.5
+offset_bottom = 137.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Resume" type="Button" parent="PauseMenu/c/Box"]
+layout_mode = 0
+offset_left = 25.5
+offset_top = 33.0
+offset_right = 128.5
+offset_bottom = 75.0
+text = "Resume
+"
+script = ExtResource("6_88nby")
+
+[node name="Options" type="Button" parent="PauseMenu/c/Box"]
+layout_mode = 0
+offset_left = 28.5
+offset_top = 99.0
+offset_right = 131.5
+offset_bottom = 141.0
+text = "Options
+"
+script = ExtResource("6_88nby")
+
+[node name="Menu" type="Button" parent="PauseMenu/c/Box"]
+layout_mode = 0
+offset_left = 31.5
+offset_top = 169.0
+offset_right = 134.5
+offset_bottom = 211.0
+text = "Main Menu
+"
+script = ExtResource("6_88nby")
+
+[connection signal="pressed" from="PauseMenu/c/Box/Resume" to="PauseMenu" method="ResumeButton"]
+[connection signal="pressed" from="PauseMenu/c/Box/Options" to="PauseMenu" method="OptionsButton"]
+[connection signal="pressed" from="PauseMenu/c/Box/Menu" to="PauseMenu" method="MainMenuButton"]

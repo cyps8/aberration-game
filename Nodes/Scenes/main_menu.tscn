@@ -1,0 +1,56 @@
+[gd_scene load_steps=3 format=3 uid="uid://bsnd3ebde7232"]
+
+[ext_resource type="Script" path="res://Scripts/Menus/MainMenu.gd" id="1_uvyyj"]
+[ext_resource type="Script" path="res://Scripts/Menus/MenuButton.gd" id="2_msn7g"]
+
+[node name="MainMenu" type="CanvasLayer"]
+script = ExtResource("1_uvyyj")
+
+[node name="c" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="c"]
+layout_mode = 0
+offset_left = 438.0
+offset_top = 130.0
+offset_right = 868.0
+offset_bottom = 218.0
+text = "Is this a game about penguin? IT A GAP
+"
+
+[node name="Start" type="Button" parent="c"]
+layout_mode = 0
+offset_left = 124.0
+offset_top = 326.0
+offset_right = 283.0
+offset_bottom = 370.0
+text = "Start"
+script = ExtResource("2_msn7g")
+
+[node name="Options" type="Button" parent="c"]
+layout_mode = 0
+offset_left = 137.0
+offset_top = 437.0
+offset_right = 296.0
+offset_bottom = 481.0
+text = "Options"
+script = ExtResource("2_msn7g")
+
+[node name="Exit" type="Button" parent="c"]
+layout_mode = 0
+offset_left = 130.0
+offset_top = 536.0
+offset_right = 289.0
+offset_bottom = 580.0
+text = "Exit
+"
+script = ExtResource("2_msn7g")
+
+[connection signal="pressed" from="c/Start" to="." method="StartButton"]
+[connection signal="pressed" from="c/Options" to="." method="OptionsButton"]
+[connection signal="pressed" from="c/Exit" to="." method="QuitButton"]

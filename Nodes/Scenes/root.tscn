@@ -1,0 +1,145 @@
+[gd_scene load_steps=11 format=3 uid="uid://duhm5dhsht1sq"]
+
+[ext_resource type="Script" path="res://Scripts/SceneManager.gd" id="1_pc2mq"]
+[ext_resource type="Script" path="res://Scripts/Menus/OptionsMenu.gd" id="2_5ffx8"]
+[ext_resource type="PackedScene" uid="uid://rvypixb4aur5" path="res://Nodes/Scenes/game.tscn" id="2_tl0bo"]
+[ext_resource type="Script" path="res://Scripts/AudioPlayer.gd" id="3_a1rkd"]
+[ext_resource type="PackedScene" uid="uid://bsnd3ebde7232" path="res://Nodes/Scenes/main_menu.tscn" id="3_mesax"]
+[ext_resource type="Script" path="res://Scripts/Menus/VolumeSlider.gd" id="5_lh0g2"]
+[ext_resource type="Script" path="res://Scripts/Menus/MenuButton.gd" id="5_y56c7"]
+[ext_resource type="AudioStream" uid="uid://cfx60i8qrg8o7" path="res://Assets/Audio/SFX/menupress.wav" id="7_4xv2h"]
+[ext_resource type="AudioStream" uid="uid://dshigradrika1" path="res://Assets/Audio/SFX/menu.wav" id="8_qfqqg"]
+[ext_resource type="AudioStream" uid="uid://r31jcgo1bqvy" path="res://Assets/Audio/SFX/volume.wav" id="9_xpjds"]
+
+[node name="Root" type="Node"]
+process_mode = 3
+script = ExtResource("1_pc2mq")
+gameScene = ExtResource("2_tl0bo")
+menuScene = ExtResource("3_mesax")
+
+[node name="LoadingScreen" type="CanvasLayer" parent="."]
+layer = 20
+
+[node name="c" type="Control" parent="LoadingScreen"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="LoadingScreen/c"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.266667, 0.0705882, 0.0862745, 0.741176)
+
+[node name="OptionsMenu" type="CanvasLayer" parent="."]
+layer = 10
+script = ExtResource("2_5ffx8")
+
+[node name="c" type="Control" parent="OptionsMenu"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Box" type="Panel" parent="OptionsMenu/c"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -298.0
+offset_top = -196.0
+offset_right = 298.0
+offset_bottom = 196.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="WindowMode" type="OptionButton" parent="OptionsMenu/c/Box"]
+layout_mode = 0
+offset_left = 377.0
+offset_top = 84.0
+offset_right = 546.0
+offset_bottom = 104.0
+script = ExtResource("5_y56c7")
+
+[node name="WindowRes" type="OptionButton" parent="OptionsMenu/c/Box"]
+layout_mode = 0
+offset_left = 381.0
+offset_top = 176.0
+offset_right = 550.0
+offset_bottom = 196.0
+script = ExtResource("5_y56c7")
+
+[node name="MasterVolume" type="HSlider" parent="OptionsMenu/c/Box"]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 92.0
+offset_right = 264.0
+offset_bottom = 108.0
+max_value = 1.0
+step = 0.01
+script = ExtResource("5_lh0g2")
+
+[node name="MusicVolume" type="HSlider" parent="OptionsMenu/c/Box"]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 158.0
+offset_right = 264.0
+offset_bottom = 174.0
+max_value = 1.0
+step = 0.01
+script = ExtResource("5_lh0g2")
+busName = "Music"
+
+[node name="SFXVolume" type="HSlider" parent="OptionsMenu/c/Box"]
+layout_mode = 0
+offset_left = 73.0
+offset_top = 221.0
+offset_right = 262.0
+offset_bottom = 237.0
+max_value = 1.0
+step = 0.01
+script = ExtResource("5_lh0g2")
+busName = "SFX"
+
+[node name="ConfirmWindow" type="CanvasLayer" parent="OptionsMenu"]
+layer = 15
+
+[node name="c" type="Control" parent="OptionsMenu/ConfirmWindow"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Box" type="Panel" parent="OptionsMenu/ConfirmWindow/c"]
+layout_mode = 0
+offset_left = 453.0
+offset_top = 198.0
+offset_right = 705.0
+offset_bottom = 421.0
+
+[node name="Confirm" type="Button" parent="OptionsMenu/ConfirmWindow/c/Box"]
+layout_mode = 0
+offset_left = 69.0
+offset_top = 152.0
+offset_right = 178.0
+offset_bottom = 172.0
+text = "CONFIRM"
+script = ExtResource("5_y56c7")
+
+[node name="AudioPlayer" type="Node" parent="."]
+script = ExtResource("3_a1rkd")
+sounds = Array[AudioStream]([ExtResource("7_4xv2h"), ExtResource("8_qfqqg"), ExtResource("9_xpjds")])
+
+[connection signal="pressed" from="OptionsMenu/ConfirmWindow/c/Box/Confirm" to="OptionsMenu" method="ConfirmChanges"]

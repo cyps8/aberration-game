@@ -1,0 +1,52 @@
+[gd_scene load_steps=10 format=3 uid="uid://dtlostygrqws0"]
+
+[ext_resource type="Script" path="res://Scripts/Game/Player.gd" id="1_8qnqc"]
+[ext_resource type="Script" path="res://Scripts/Game/CamArm.gd" id="2_fpmh6"]
+[ext_resource type="Script" path="res://Scripts/Game/StandArea.gd" id="3_4iw2e"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ea6uc"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gc6gx"]
+albedo_color = Color(0.266667, 0.345098, 0.572549, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ev7o1"]
+material = SubResource("StandardMaterial3D_gc6gx")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ox4b1"]
+albedo_color = Color(1, 0.458824, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_l8mf7"]
+material = SubResource("StandardMaterial3D_ox4b1")
+top_radius = 0.0
+bottom_radius = 0.15
+height = 0.4
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hohvg"]
+
+[node name="Player" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_8qnqc")
+
+[node name="Shape" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_ea6uc")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_ev7o1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mesh"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.398069, -0.582944)
+mesh = SubResource("CylinderMesh_l8mf7")
+
+[node name="Arm" type="SpringArm3D" parent="."]
+spring_length = 5.0
+script = ExtResource("2_fpmh6")
+
+[node name="Cam" type="Camera3D" parent="Arm"]
+
+[node name="StandArea" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("3_4iw2e")
+
+[node name="Shape" type="CollisionShape3D" parent="StandArea"]
+shape = SubResource("CapsuleShape3D_hohvg")
